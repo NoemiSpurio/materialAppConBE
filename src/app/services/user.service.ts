@@ -37,7 +37,8 @@ export class UserService {
   }
 
   delete(idUser: number) {
-    this.USER_LIST = this.USER_LIST.filter(ele => ele.id !== idUser);
+    // this.USER_LIST = this.USER_LIST.filter(ele => ele.id !== idUser);
+    return this.http.delete(this.apiServer + "/" + idUser);
   }
 
   save(user: User) {

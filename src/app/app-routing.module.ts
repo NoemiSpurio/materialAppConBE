@@ -3,23 +3,28 @@ import { RouterModule, Routes } from '@angular/router';
 import { DetailUserComponent } from './components/detail-user/detail-user.component';
 import { ListUserComponent } from './components/list-user/list-user.component';
 import { AuthModule } from './core/auth/auth.module';
+import { AuthGuard } from './core/auth/auth.guard';
 
 const routes: Routes = [
   {
     path: 'list',
-    component: ListUserComponent
+    component: ListUserComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'create',
-    component: DetailUserComponent
+    component: DetailUserComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'detail/:id',
-    component: DetailUserComponent
+    component: DetailUserComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'edit/:id',
-    component: DetailUserComponent
+    component: DetailUserComponent,
+    canActivate: [AuthGuard]
   },
   {
     path: 'login',
@@ -27,7 +32,7 @@ const routes: Routes = [
   },
   {
     path: '',
-    redirectTo: 'list',
+    redirectTo: 'login',
     pathMatch: 'full'
   }
 ];

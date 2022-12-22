@@ -19,7 +19,7 @@ export class DialogComponent {
   }
 
   delete(){
-    this.userService.delete(this.idUser!);
+    this.userService.delete(this.idUser!).subscribe();
     this.snackService.openSnackbar("Utente eliminato!");
   }
 }
