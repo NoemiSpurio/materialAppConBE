@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -12,9 +12,14 @@ import { DialogComponent } from '../dialog/dialog.component';
   templateUrl: './list-user.component.html',
   styleUrls: ['./list-user.component.css']
 })
-export class ListUserComponent implements OnInit{
+export class ListUserComponent implements OnInit, OnChanges {
 
   constructor(private userService: UserService, private router: Router, public dialog: MatDialog) { }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this.getData();
+    this.dataSource.paginator = this.paginator;
+  }
 
   ngOnInit(): void {
     this.getData();
@@ -26,7 +31,7 @@ export class ListUserComponent implements OnInit{
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  ngAfterViewInit(){
+  ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
   }
 
@@ -45,27 +50,31 @@ export class ListUserComponent implements OnInit{
   // dataSource = this.userService.getUsers();
   // dataSource = this.userService.getUsersOf(); // qui in teoria dovrei fare la subscribe
 
-  getData(){
-  this.userService.getUsersOf().subscribe(res => {
-    this.dataSource = new MatTableDataSource<User>(res);
-  });
+  getData() {
+    this.userService.getUsersOf().subscribe(res => {
+      this.dataSource = new MatTableDataSource<User>(res);
+    });
   }
 
-  show(idUser: number){
+  show(idUser: number) {
     this.router.navigate(["detail", idUser]);
   }
 
-  delete(idUser: number){
+  delete(idUser: number) {
     this.userService.delete(idUser);
     this.getData();
     this.dataSource.paginator = this.paginator;
   }
 
-  edit(idUser: number){
+  edit(idUser: number) {
     this.router.navigate(["edit", idUser]);
+    this.getData();
+    this.dataSource.paginator = this.paginator;
   }
 
-  create(){
+  create() {
     this.router.navigate(["create"]);
+    this.getData();
+    this.dataSource.paginator = this.paginator;
   }
 }

@@ -42,11 +42,10 @@ export class UserService {
   }
 
   save(user: User) {
-    if (!user.id) {
-      user.id = this.cercaIdMax() + 1;
-      this.USER_LIST.push(user);
-    }
-    this.USER_LIST.filter(u => u.id == user.id).map(u => { u.nome = user.nome; u.cognome = user.cognome; u.dataDiNascita = user.dataDiNascita; });
+    if(user.id == 0)
+      return this.http.post(this.apiServer, user, this.httpOptions);
+    else
+      return this.http.put(this.apiServer +"/" + user.id, user, this.httpOptions)
   }
 
   findById(id: number){
